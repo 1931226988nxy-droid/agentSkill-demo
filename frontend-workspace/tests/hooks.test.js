@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { effectScope } from 'vue';
-import { useAsyncTask, useTableQuery } from '@jcc/hooks';
+import { useAsyncTask, useTableQuery } from '@jcc/shared/hooks';
 const deferred = () => {
   let resolve, reject;
   const promise = new Promise((a, b) => {

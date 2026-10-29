@@ -1,8 +1,8 @@
 <script setup>
 import { nextTick, reactive, ref, watch } from 'vue';
 import { Alert, Button, Form, Modal, Space } from 'ant-design-vue';
-import { cloneQuery } from '../../../utils/src/index.js';
-import { useAsyncTask } from '../../../hooks/src/index.js';
+import { cloneQuery } from '../utils/index.js';
+import { useAsyncTask } from '../hooks/index.js';
 defineOptions({ inheritAttrs: false });
 const props = defineProps({
   open: Boolean,

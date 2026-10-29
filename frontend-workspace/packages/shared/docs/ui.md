@@ -1,4 +1,4 @@
-# @jcc/ui 0.1.0
+# @jcc/shared/components 0.1.0
 
 组件基于 Vue 3 + Ant Design Vue 4.2.6。业务通过 `@jcc/shared/components` 命名导入使用；入口导入 `@jcc/shared/style.css`，根使用 JccProvider。
 保留原生 Ant 非冲突 attrs/events 和具名插槽。受控模型、数据、分页、上传请求等由封装本身管理，不能再用 attrs 覆盖这些契约。

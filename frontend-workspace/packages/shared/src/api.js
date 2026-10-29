@@ -1,1 +1,1 @@
-export { createHttpClient, HttpError } from '../../utils/src/index.js';
+export { createHttpClient, HttpError } from './utils/index.js';

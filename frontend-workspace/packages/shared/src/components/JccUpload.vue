@@ -2,7 +2,7 @@
 import { onBeforeUnmount, ref } from 'vue';
 import { Alert, Button, Upload } from 'ant-design-vue';
 import { UploadOutlined } from '@ant-design/icons-vue';
-import { validateFile } from '../../../utils/src/index.js';
+import { validateFile } from '../utils/index.js';
 defineOptions({ inheritAttrs: false });
 const props = defineProps({
   fileList: { type: Array, default: () => [] },

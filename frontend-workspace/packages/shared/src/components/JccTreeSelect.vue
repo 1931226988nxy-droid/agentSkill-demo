@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { TreeSelect } from 'ant-design-vue';
-import { normalizeTree } from '../../../utils/src/index.js';
+import { normalizeTree } from '../utils/index.js';
 defineOptions({ inheritAttrs: false });
 const props = defineProps({
   value: { default: undefined },

@@ -1,4 +1,4 @@
-# @jcc/hooks 0.1.0
+# @jcc/shared/hooks 0.1.0
 
 ## useTableQuery({fetcher,initialFilters={},pageSize=20})
 

@@ -6,7 +6,7 @@
 
 ## 公共组件
 
-导入路径：`@jcc/shared/components`；[导出源码](../../frontend-workspace/packages/ui/src/index.js)。
+导入路径：`@jcc/shared/components`；[导出源码](../../frontend-workspace/packages/shared/src/components/index.js)。
 
 - `JccProvider`
 - `JccTable`
@@ -22,7 +22,7 @@
 
 ## 状态方法
 
-导入路径：`@jcc/shared/hooks`；[导出源码](../../frontend-workspace/packages/hooks/src/index.js)。
+导入路径：`@jcc/shared/hooks`；[导出源码](../../frontend-workspace/packages/shared/src/hooks/index.js)。
 
 - `useTableQuery`
 - `useAsyncTask`
@@ -63,7 +63,7 @@
 
 ## 主题方法
 
-导入路径：`@jcc/shared/theme`；[导出源码](../../frontend-workspace/packages/theme/src/index.js)。
+导入路径：`@jcc/shared/theme`；[导出源码](../../frontend-workspace/packages/shared/src/theme/index.js)。
 
 - `createAntTheme`
 

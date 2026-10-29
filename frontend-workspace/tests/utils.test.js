@@ -1,6 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
 import {
-  createHttpClient,
   downloadBlob,
   filterTree,
   formatBytes,
@@ -10,7 +9,8 @@ import {
   normalizeTree,
   safeFileName,
   validateFile,
-} from '@jcc/utils';
+} from '@jcc/shared/utils';
+import { createHttpClient } from '@jcc/shared/api';
 describe('树和文件公共方法', () => {
   it('保留主键 0，构树不修改输入，孤儿作为根', () => {
     const input = [

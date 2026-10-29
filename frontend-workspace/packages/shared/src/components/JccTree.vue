@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref, useAttrs } from 'vue';
 import { Empty, InputSearch, Tree } from 'ant-design-vue';
-import { filterTree, getTreeKeys, normalizeTree } from '../../../utils/src/index.js';
+import { filterTree, getTreeKeys, normalizeTree } from '../utils/index.js';
 defineOptions({ inheritAttrs: false });
 const props = defineProps({
   treeData: { type: Array, default: () => [] },

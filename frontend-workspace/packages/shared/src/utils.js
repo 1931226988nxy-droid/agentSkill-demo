@@ -12,4 +12,4 @@ export {
   formatDate,
   cloneQuery,
   debounce,
-} from '../../utils/src/index.js';
+} from './utils/index.js';

@@ -1,5 +1,5 @@
 import { getCurrentScope, onScopeDispose, reactive, ref, toRaw } from 'vue';
-import { cloneQuery } from '../../utils/src/index.js';
+import { cloneQuery } from '../utils/index.js';
 
 /** fetcher({page,pageSize,filters,signal}) -> Promise<{items:Array,total:number}> */
 export function useTableQuery({ fetcher, initialFilters = {}, pageSize = 20 } = {}) {

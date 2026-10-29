@@ -43,4 +43,4 @@ description: "在 Vue 3 + Ant Design Vue + JavaScript 项目使用或维护 @jcc
 
 ## 固定更新指令
 
-用户输入 **`同步公共组件库 skill`** 时，在 `frontend-workspace` 中检查新组件或方法已从对应 `packages/*/src/index.js` 及 `packages/shared/src` 公开导出，并补全相应 API 文档；执行 `npm run sync:skill`，检查生成的 `frontend-system/references/library-catalog.md`，再运行相关测试和 `npm run build`。清单由真实导出生成，不把未导出的文件或用户提供的描述当作可调用 API。源码链接的开发项目不需要重新安装。
+用户输入 **`同步公共组件库 skill`** 时，在 `frontend-workspace` 中检查新组件或方法已从 `packages/shared/src` 的对应分类入口公开导出，并补全相应 API 文档；执行 `npm run sync:skill`，检查生成的 `frontend-system/references/library-catalog.md`，再运行相关测试和 `npm run build`。清单由真实导出生成，不把未导出的文件或用户提供的描述当作可调用 API。源码链接的开发项目不需要重新安装。

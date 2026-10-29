@@ -4,9 +4,9 @@
 
 | 内容 | 唯一维护位置 |
 | --- | --- |
-| 品牌色、文字色、间距等变量 | `packages/theme/src/tokens.css` |
-| 顶栏、侧栏、页面容器 | `packages/theme/src/layout.css` |
-| 组件外观 | `packages/ui/src` 与 `packages/theme/src` |
+| 品牌色、文字色、间距等变量 | `packages/shared/src/theme/tokens.css` |
+| 顶栏、侧栏、页面容器 | `packages/shared/src/theme/layout.css` |
+| 组件外观 | `packages/shared/src/components` 与 `packages/shared/src/theme` |
 | 组件 API 和行为 | `packages/shared/docs/API.md`，对应源码与测试 |
 | 档案系统原型的布局约束 | [布局规范](../../frontend-system/references/layout.md) |
 | 档案系统原型的主题约束 | [主题规范](../../frontend-system/references/theme.md) |

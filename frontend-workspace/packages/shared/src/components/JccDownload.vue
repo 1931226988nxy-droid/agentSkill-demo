@@ -1,8 +1,8 @@
 <script setup>
 import { Alert, Button } from 'ant-design-vue';
 import { DownloadOutlined } from '@ant-design/icons-vue';
-import { downloadBlob } from '../../../utils/src/index.js';
-import { useAsyncTask } from '../../../hooks/src/index.js';
+import { downloadBlob } from '../utils/index.js';
+import { useAsyncTask } from '../hooks/index.js';
 defineOptions({ inheritAttrs: false });
 const props = defineProps({
   file: { type: Object, required: true },

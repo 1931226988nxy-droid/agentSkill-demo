@@ -30,32 +30,33 @@ function namedExports(path) {
 }
 
 const groups = [
-  ['公共组件', 'packages/ui/src/index.js', '@jcc/shared/components'],
-  ['状态方法', 'packages/hooks/src/index.js', '@jcc/shared/hooks'],
+  ['公共组件', 'packages/shared/src/components/index.js', '@jcc/shared/components'],
+  ['状态方法', 'packages/shared/src/hooks/index.js', '@jcc/shared/hooks'],
   ['公共 API', 'packages/shared/src/api.js', '@jcc/shared/api'],
   ['公共方法', 'packages/shared/src/utils.js', '@jcc/shared/utils'],
   ['验证规则', 'packages/shared/src/validators.js', '@jcc/shared/validators'],
-  ['主题方法', 'packages/theme/src/index.js', '@jcc/shared/theme'],
+  ['主题方法', 'packages/shared/src/theme/index.js', '@jcc/shared/theme'],
   ['图片与图标 URL', 'packages/shared/src/assets.js', '@jcc/shared/assets'],
 ];
 
-const components = namedExports('packages/ui/src/index.js');
-const unexported = readdirSync(join(workspace, 'packages', 'ui', 'src', 'components')).filter(
+const components = namedExports('packages/shared/src/components/index.js');
+const unexported = readdirSync(join(workspace, 'packages', 'shared', 'src', 'components')).filter(
   (file) => file.endsWith('.vue') && !components.includes(file.slice(0, -4)),
 );
-if (unexported.length) throw new Error(`组件未从 @jcc/ui 导出：${unexported.join('、')}`);
+if (unexported.length)
+  throw new Error(`组件未从 @jcc/shared/components 导出：${unexported.join('、')}`);
 
-const utilsIndex = source('packages/utils/src/index.js');
+const utilsIndex = source('packages/shared/src/utils/index.js');
 const originalMethods = [
   ...utilsIndex.matchAll(/export\s*\*\s*from\s*['"]\.\/([^'"]+)['"]/g),
-].flatMap((match) => namedExports(`packages/utils/src/${match[1]}`));
+].flatMap((match) => namedExports(`packages/shared/src/utils/${match[1]}`));
 const sharedMethods = new Set([
   ...namedExports('packages/shared/src/api.js'),
   ...namedExports('packages/shared/src/utils.js'),
 ]);
 const omittedMethods = originalMethods.filter((name) => !sharedMethods.has(name));
 if (omittedMethods.length)
-  throw new Error(`原 utils 已导出但 @jcc/shared 未公开：${omittedMethods.join('、')}`);
+  throw new Error(`公共方法未从 @jcc/shared 公开：${omittedMethods.join('、')}`);
 
 const assetFiles = readdirSync(join(workspace, 'packages', 'shared', 'assets'));
 const packageExports = JSON.parse(source('packages/shared/package.json')).exports;

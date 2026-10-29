@@ -10,7 +10,7 @@ import {
   JccTree,
   JccTreeSelect,
   JccUpload,
-} from '@jcc/ui';
+} from '@jcc/shared/components';
 const wrappers = [];
 function render(component, options = {}) {
   const wrapper = mount(component, { attachTo: document.body, ...options });

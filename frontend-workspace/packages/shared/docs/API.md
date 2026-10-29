@@ -27,4 +27,4 @@ import { isMobileCN } from '@jcc/shared/validators';
 import { documentImageUrl } from '@jcc/shared/assets';
 ```
 
-新增组件或方法需先加入原包公开出口，若属于新类别则同步 `packages/shared/src` 出口，更新对应 API 文档，然后在 Codex 输入固定指令 `同步公共组件库 skill`。这条指令会检查实际导出并运行 `npm run sync:skill`，把清单写入 `frontend-system/references/library-catalog.md`。
+新增组件或方法需从 `packages/shared/src` 的对应分类入口公开导出，并更新对应 API 文档，然后在 Codex 输入固定指令 `同步公共组件库 skill`。这条指令会检查实际导出并运行 `npm run sync:skill`，把清单写入 `frontend-system/references/library-catalog.md`。

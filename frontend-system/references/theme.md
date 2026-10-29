@@ -1,6 +1,6 @@
 # 共享主题
 
-共享主题的数值来源为 `packages/theme/src/tokens.css`；`createAntTheme()` 把变量映射到 Ant Design Vue。布局在 `layout.css`，组件局部样式在 `packages/ui/src/style.css`。新项目只导入 `@jcc/shared/style.css`，所有应用通过 `JccProvider` 共用主题。
+共享主题的数值来源为 `packages/shared/src/theme/tokens.css`；`createAntTheme()` 把变量映射到 Ant Design Vue。布局在同目录的 `layout.css`，组件局部样式在 `packages/shared/src/components/style.css`。新项目只导入 `@jcc/shared/style.css`，所有应用通过 `JccProvider` 共用主题。
 
 当前默认视觉以用户提供的档案系统原型为准：页面底色 `#f2f3f8`、白色内容卡片、蓝青渐变顶栏、亮蓝强调色 `#4c78f4`、浅蓝选中底色 `#e9eefc` 和浅灰表头 `#f0f1f5`。主操作色为 `#246fee`，用于按钮与链接；卡片圆角约 12–16px，表单控件仍保持较小圆角。完整侧栏和图标侧栏共用 `JccAppShell`，工作台可不显示顶部页签。
 

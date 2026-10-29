@@ -1,4 +1,4 @@
-# @jcc/utils 0.1.0
+# @jcc/shared/utils 0.1.0
 
 不依赖 Vue 或 Ant。ESM 命名导出，浏览器下载相关函数仅调用时访问 DOM。
 

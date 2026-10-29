@@ -2,7 +2,7 @@
 import { computed, onBeforeMount, ref } from 'vue';
 import { ConfigProvider } from 'ant-design-vue';
 import zhCN from 'ant-design-vue/es/locale/zh_CN.js';
-import { createAntTheme } from '../../../theme/src/index.js';
+import { createAntTheme } from '../theme/index.js';
 defineOptions({ inheritAttrs: false });
 const props = defineProps({
   theme: { type: Object, default: () => ({}) },
