@@ -1,0 +1,4 @@
+interface:
+  display_name: "共享组件前端 · Vue 3"
+  short_description: "统一使用公共组件、主题、方法与异步状态包，为多个 Vue 3 企业前端项目开发页面。"
+  default_prompt: "使用 $frontend-system，优先从 @jcc/shared 的分类入口引用公共能力，完成当前项目页面。"

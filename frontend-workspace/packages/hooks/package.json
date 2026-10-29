@@ -1,0 +1,19 @@
+{
+  "name": "@jcc/hooks",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "files": [
+    "src",
+    "docs"
+  ],
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "dependencies": {
+    "@jcc/utils": "0.1.0"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.0"
+  }
+}

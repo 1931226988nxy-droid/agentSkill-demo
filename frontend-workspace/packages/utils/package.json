@@ -1,0 +1,13 @@
+{
+  "name": "@jcc/utils",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "files": [
+    "src",
+    "docs"
+  ],
+  "exports": {
+    ".": "./src/index.js"
+  }
+}

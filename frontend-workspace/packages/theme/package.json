@@ -1,0 +1,15 @@
+{
+  "name": "@jcc/theme",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "files": [
+    "src",
+    "docs"
+  ],
+  "exports": {
+    ".": "./src/index.js",
+    "./style.css": "./src/style.css",
+    "./tokens.css": "./src/tokens.css"
+  }
+}

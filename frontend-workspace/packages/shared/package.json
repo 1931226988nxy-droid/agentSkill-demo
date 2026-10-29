@@ -1,0 +1,28 @@
+{
+  "name": "@jcc/shared",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.js",
+    "./components": "./src/components.js",
+    "./hooks": "./src/hooks.js",
+    "./api": "./src/api.js",
+    "./utils": "./src/utils.js",
+    "./validators": "./src/validators.js",
+    "./theme": "./src/theme.js",
+    "./assets": "./src/assets.js",
+    "./vite": "./vite.live.js",
+    "./assets/document.svg": "./assets/document.svg",
+    "./assets/add.svg": "./assets/add.svg",
+    "./style.css": "./src/style.css"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "peerDependencies": {
+    "vue": "^3.5.0",
+    "ant-design-vue": "^4.2.6",
+    "@ant-design/icons-vue": "^7.0.0"
+  }
+}

@@ -1,0 +1,106 @@
+.jcc-panel-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+  align-items: center;
+  padding-bottom: 18px;
+  border-bottom: 0;
+}
+.jcc-table {
+  min-width: 0;
+}
+.jcc-table .ant-table-container {
+  border-top: 2px solid var(--color-brand, #4c78f4);
+}
+.jcc-table .ant-table-thead > tr > th {
+  background: var(--color-table-header, #f0f1f5);
+  color: var(--color-text, #262b35);
+  font-weight: 600;
+}
+.jcc-table .ant-table-tbody > tr:nth-child(odd) > td {
+  background: #fafafb;
+}
+.jcc-table .ant-table-tbody > tr:hover > td {
+  background: var(--color-hover, #f5f8ff);
+}
+.jcc-table .ant-table-small .ant-table-thead > tr > th,
+.jcc-table .ant-table-small .ant-table-tbody > tr > td {
+  padding: var(--table-cell-y, 11px) var(--table-cell-x, 12px);
+}
+.jcc-table-error {
+  margin-bottom: 12px;
+}
+.jcc-pagination {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+.jcc-pagination .ant-pagination-item-active {
+  background: var(--color-selection, #e9eefc);
+}
+.jcc-tree-search {
+  margin-bottom: 12px;
+}
+.jcc-tree .ant-tree-node-content-wrapper:hover {
+  background: var(--color-hover, #f3f7fc);
+}
+.jcc-tree .ant-tree-node-selected {
+  background: var(--color-selection, #eaf0ff);
+  color: var(--color-selection-text, #246bbd);
+}
+.jcc-tree-select {
+  width: 100%;
+  min-width: 120px;
+}
+.jcc-file-hint {
+  color: var(--color-text-muted, #666);
+  font-size: 12px;
+  margin: 8px 0 !important;
+}
+.jcc-upload .ant-alert,
+.jcc-download .ant-alert {
+  margin-top: 8px;
+}
+.jcc-modal-form {
+  padding-top: 16px;
+}
+.fs-editor .ant-modal-header {
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-border-soft, #e7ebf0);
+}
+.jcc-modal-form + .ant-alert {
+  margin-top: 12px;
+}
+.jcc-toolbar-actions {
+  flex-shrink: 0;
+}
+.jcc-lab-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.jcc-lab-card {
+  border: 1px solid var(--color-border-soft, #e7ebf0);
+  padding: 20px;
+  border-radius: var(--radius-card, 16px);
+  min-width: 0;
+  background: var(--color-surface, #fff);
+  box-shadow: var(--shadow-card, 0 2px 10px rgb(33 57 88 / 5%));
+}
+.jcc-lab-card h2 {
+  margin-bottom: 16px;
+  font-size: 16px;
+  font-weight: 600;
+}
+@media (max-width: 760px) {
+  .jcc-pagination .ant-pagination {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    justify-content: flex-end;
+  }
+  .jcc-lab-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
