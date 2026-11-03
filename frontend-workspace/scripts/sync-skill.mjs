@@ -1,6 +1,6 @@
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { join, relative } from 'node:path';
+import { join } from 'node:path';
 
 const workspace = fileURLToPath(new URL('..', import.meta.url));
 const skill = join(workspace, '..', 'frontend-system');
@@ -72,8 +72,7 @@ const lines = [
 for (const [title, path, importPath] of groups) {
   const names = namedExports(path);
   if (!names.length) throw new Error(`${path} 没有发现公开导出`);
-  const link = relative(join(skill, 'references'), join(workspace, path)).replaceAll('\\', '/');
-  lines.push(`## ${title}`, '', `导入路径：\`${importPath}\`；[导出源码](${link})。`, '');
+  lines.push(`## ${title}`, '', `导入路径：\`${importPath}\`；导出源码：共享包 \`${path}\`。`, '');
   lines.push(names.map((name) => `- \`${name}\``).join('\n'), '');
 }
 lines.push(

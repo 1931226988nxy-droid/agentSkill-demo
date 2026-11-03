@@ -5,13 +5,13 @@ description: "在 Vue 3 + Ant Design Vue + JavaScript 项目使用或维护 @jcc
 
 # 使用共享前端工程
 
-先读取 [项目配置](references/project-profile.md) 与 [共享包接入](references/shared-packages.md)，确认真实依赖、包版本、API 适配器和已有业务封装。选用已有能力时读取自动生成的 [公共库导出清单](references/library-catalog.md)，细节以 [公共库 API](../frontend-workspace/docs/API.md) 和源码为准。
+先读取 [项目配置](references/project-profile.md) 与 [共享包接入](references/shared-packages.md)，确认真实依赖、包版本、API 适配器和已有业务封装。先从当前项目依赖或本 skill 的实际目录定位 `frontend-workspace`，再按需读取其 `docs/API.md`、源码和 [公共库导出清单](references/library-catalog.md)。不要依赖全局 skill 安装入口的相对路径定位共享包。
 
 ## 依赖与代码归属
 
 - 技术栈固定为 Vue 3 + Ant Design Vue 4.x + JavaScript，单文件组件使用 `<script setup>`。已有项目不擅自迁移。
 - 新项目将 `@jcc/shared` 链接到同一份源码，从其分类子路径引用组件、hooks、API、方法、验证规则和素材；入口导入 `@jcc/shared/style.css`。
-- 包根目录是 `frontend-workspace`，本机前端项目按根目录 `使用说明.md` 使用 `npm link` 和 Vite 源码访问配置。不要把共享组件复制到各应用再分别修改。
+- 包根目录是 `frontend-workspace`，接入说明在其上一级目录的 `使用说明.md`。本机前端项目可按说明使用 `npm link` 和 Vite 源码访问配置；不要把共享组件复制到各应用再分别修改。
 - 用户明确要求与项目局部配置优先；遵守仓库指令。共享包缺失时确认真实安装位置，不编造组件或假定已发布 npm。
 - 业务字段、权限、路由、后端地址和响应格式转换属于应用；通用交互、样式和无业务方法属于公共包。
 
@@ -21,7 +21,7 @@ description: "在 Vue 3 + Ant Design Vue + JavaScript 项目使用或维护 @jcc
 | -------------------------------- | --------------------------------------------------------------------------- |
 | 选择公共组件/API                 | [导出清单](references/library-catalog.md)、[组件路由](references/components.md)，再打开真实包的 docs/API.md 和必要源码 |
 | 列表查询、分页、竞态             | [列表规范](references/tables.md)                                            |
-| 树与下拉树选择                   | [组件路由](references/components.md) + [组件 API](../frontend-workspace/docs/ui.md) |
+| 树与下拉树选择                   | [组件路由](references/components.md) + 共享包 `docs/ui.md`                  |
 | 表单与弹窗                       | [表单](references/forms.md)、[浮层](references/overlays.md)                 |
 | 上传下载、请求与公共方法         | [文件与接口](references/files.md)                                           |
 | 布局与主题，包括档案系统原型风格 | [布局](references/layout.md)、[主题](references/theme.md)                   |
@@ -39,7 +39,7 @@ description: "在 Vue 3 + Ant Design Vue + JavaScript 项目使用或维护 @jcc
 
 交付说明修改了哪些应用/公共包、兼容性及验证结果。改变共享 API 或接入范围时明确说明；链接项目开发时直接读源码，生产页面仍需重新构建部署。
 
-多项目交付时按需读取 [团队约定](../frontend-workspace/docs/enterprise-playbook.md) 和 [视觉基线](../frontend-workspace/docs/design-system.md)，并遵守目标项目自己的 AGENTS.md。
+多项目交付时按需读取共享包的 `docs/enterprise-playbook.md` 和 `docs/design-system.md`，并遵守目标项目自己的 AGENTS.md。
 
 ## 固定更新指令
 

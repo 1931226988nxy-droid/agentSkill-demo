@@ -6,7 +6,7 @@
 
 ## 公共组件
 
-导入路径：`@jcc/shared/components`；[导出源码](../../frontend-workspace/src/components/index.js)。
+导入路径：`@jcc/shared/components`；导出源码：共享包 `src/components/index.js`。
 
 - `JccProvider`
 - `JccTable`
@@ -22,21 +22,21 @@
 
 ## 状态方法
 
-导入路径：`@jcc/shared/hooks`；[导出源码](../../frontend-workspace/src/hooks/index.js)。
+导入路径：`@jcc/shared/hooks`；导出源码：共享包 `src/hooks/index.js`。
 
 - `useTableQuery`
 - `useAsyncTask`
 
 ## 公共 API
 
-导入路径：`@jcc/shared/api`；[导出源码](../../frontend-workspace/src/api.js)。
+导入路径：`@jcc/shared/api`；导出源码：共享包 `src/api.js`。
 
 - `createHttpClient`
 - `HttpError`
 
 ## 公共方法
 
-导入路径：`@jcc/shared/utils`；[导出源码](../../frontend-workspace/src/utils.js)。
+导入路径：`@jcc/shared/utils`；导出源码：共享包 `src/utils.js`。
 
 - `listToTree`
 - `normalizeTree`
@@ -54,7 +54,7 @@
 
 ## 验证规则
 
-导入路径：`@jcc/shared/validators`；[导出源码](../../frontend-workspace/src/validators.js)。
+导入路径：`@jcc/shared/validators`；导出源码：共享包 `src/validators.js`。
 
 - `patterns`
 - `isEmail`
@@ -63,13 +63,13 @@
 
 ## 主题方法
 
-导入路径：`@jcc/shared/theme`；[导出源码](../../frontend-workspace/src/theme/index.js)。
+导入路径：`@jcc/shared/theme`；导出源码：共享包 `src/theme/index.js`。
 
 - `createAntTheme`
 
 ## 图片与图标 URL
 
-导入路径：`@jcc/shared/assets`；[导出源码](../../frontend-workspace/src/assets.js)。
+导入路径：`@jcc/shared/assets`；导出源码：共享包 `src/assets.js`。
 
 - `documentImageUrl`
 - `addIconUrl`

@@ -1,6 +1,6 @@
 # 文件与公共方法
 
-上传用 JccUpload，下载用 JccDownload。实际接口按 [公共组件 API](../../frontend-workspace/docs/ui.md) 实现，不能在组件里硬编码后端 URL。
+上传用 JccUpload，下载用 JccDownload。实际接口按共享包 `docs/ui.md` 实现，不能在组件里硬编码后端 URL。
 - 上传前校验 accept 和 maxSizeMb，回调 upload(file,{signal,onProgress}) 归一化为文件元数据。
 - 只有上传适配器报告真实进度时显示相应百分比；fetch 不提供真实上传进度时不编造进度。
 - 删除/卸载中止上传，取消后忽略晚到的成功结果。上传列表移除和服务端删除是不同业务动作。
