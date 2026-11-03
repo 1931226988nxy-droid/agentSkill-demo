@@ -10,6 +10,7 @@ const props = defineProps({
   size: { type: String, default: 'small' },
 });
 const base = ref({});
+// CSS 变量依赖浏览器环境，挂载前读取以供 Ant Design Vue 主题使用。
 onBeforeMount(() => {
   base.value = createAntTheme();
 });

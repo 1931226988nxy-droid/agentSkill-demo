@@ -10,4 +10,4 @@
 - Tree 与 TreeSelect 均支持映射 label/value/children 字段；保留合法主键 0。
 - 宽表局部滚动，不能撑宽页面。实际 Ant columns/rowSelection/scroll 和 bodyCell 等插槽保留给业务扩展。
 
-准确 API 阅读 @jcc/shared/docs/ui.md，异步逻辑阅读 @jcc/shared/docs/hooks.md。
+准确 API 阅读 [公共组件 API](../../frontend-workspace/docs/ui.md)，异步逻辑阅读 [hooks 文档](../../frontend-workspace/docs/hooks.md)。

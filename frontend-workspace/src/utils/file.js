@@ -26,6 +26,7 @@ export function validateFile(file, { accept = '', maxSizeMB = 10 } = {}) {
     : { valid: false, error: `不支持该文件类型，允许：${accept}` };
 }
 
+/** 仅保留末级文件名并替换非法字符，供浏览器下载名使用。 */
 export function safeFileName(name = 'download') {
   return (
     String(name)
@@ -36,6 +37,7 @@ export function safeFileName(name = 'download') {
   );
 }
 
+/** 优先读取 Content-Disposition 的 UTF-8 filename*，解析失败时回退到 filename。 */
 export function getDownloadName(contentDisposition, fallback = 'download') {
   const utf8 = /filename\*\s*=\s*UTF-8''([^;]+)/i.exec(contentDisposition || '');
   if (utf8) {
@@ -49,6 +51,7 @@ export function getDownloadName(contentDisposition, fallback = 'download') {
   return safeFileName(plain?.[1] || plain?.[2] || fallback);
 }
 
+/** 触发浏览器下载，并在点击后释放临时链接及对象 URL。 */
 export function downloadBlob(blob, filename = 'download') {
   if (!(blob instanceof Blob)) throw new TypeError('下载内容必须是 Blob');
   const url = URL.createObjectURL(blob);

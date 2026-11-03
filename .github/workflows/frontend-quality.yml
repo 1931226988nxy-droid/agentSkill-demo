@@ -20,12 +20,3 @@ jobs:
           cache-dependency-path: frontend-workspace/package-lock.json
       - run: npm ci
       - run: npm run quality
-      - name: Upload browser diagnostics
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: browser-diagnostics
-          path: |
-            frontend-workspace/test-results/
-            frontend-workspace/playwright-report/
-          if-no-files-found: ignore

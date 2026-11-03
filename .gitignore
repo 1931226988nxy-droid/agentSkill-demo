@@ -1,11 +1,5 @@
 _backups/
 frontend-workspace/node_modules/
-frontend-workspace/.tmp-shared-check/
 **/dist/
 **/.vite/
 **/coverage/
-**/artifacts/
-**/playwright-report/
-**/test-results/
-预览.html
-组件演示.html

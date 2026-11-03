@@ -1,19 +1,22 @@
 # 公共库结构与复用边界
 
-`@jcc/shared` 位于 `packages/shared`，通过源码子路径统一导出公共能力。两个示例应用使用 npm workspaces 的目录链接；仓库外的本机项目可用 `npm link @jcc/shared` 指向同一目录。开发时修改源码，Vite 直接读取更新，无需生成单个安装文件。
+`frontend-workspace` 是 `@jcc/shared` 的包根目录；它是可直接链接的前端源码包，不包含示例应用或后端服务。
 
 ```text
-packages/shared/               唯一公共包、验证规则、共享素材与接入配置
-  src/components/              公共 Vue 组件
-  src/hooks/                   列表查询、竞态与防重复任务
-  src/utils/                   树、文件、请求和格式化方法
-  src/theme/                   主题变量、页面布局和 Ant Token 映射
-apps/admin-demo/       业务页面与接口适配
-apps/component-lab/    组件使用演示
+frontend-workspace/
+  assets/        共享 SVG
+  src/
+    components/  Vue 组件与样式
+    hooks/       列表查询和异步状态
+    utils/       请求、树、文件和格式方法
+    theme/       CSS 变量、布局和 Ant Token
+  docs/          公共 API 与接入约定
+  tests/         组件、hooks 和方法测试
+  scripts/       skill 清单与安装脚本
 ```
 
-独立项目的链接步骤及 Vite 配置见根目录 `使用说明.md`。组件从 `@jcc/shared/components` 导入，其他子路径见 `packages/shared/docs/API.md`。Vue、Ant Design Vue 和图标库由使用项目安装；库中的 `@jcc/shared/vite` 配置允许 Vite 访问链接目录并避免重复解析 Vue。
+包从 `@jcc/shared/components` 等分类路径导出。目标项目通过 `npm link @jcc/shared --save` 指向同一份源码，并在 Vite 中合入 `@jcc/shared/vite` 配置。详细步骤见根目录 `使用说明.md`；公开 API 见 `docs/API.md`。
 
-新增组件时修改 `packages/shared/src/components`，从该目录的 `index.js` 公开导出并更新 API 文档。新增公共方法时修改 `src/utils/index.js` 或 `src/hooks/index.js` 及对应公共分类入口；验证规则和素材也在 shared 维护。输入“同步公共组件库 skill”后，Codex 检查导出与文档，执行 `npm run sync:skill` 更新目录，并验证应用构建。
+通用组件、样式、无业务方法、请求封装和共享素材归本库。Java 服务地址、接口路径、业务字段、token、权限、路由和业务图片归使用项目。新增公共能力时从分类入口导出，更新 API 文档和测试，输入“同步公共组件库 skill”刷新目录。
 
-公共库不存后端 URL、业务字段、token、权限码或业务图片。各应用负责请求配置和响应适配。目录链接只对能访问相同源码的项目有效；生产站点需重新构建和部署。
+本机源码链接可让运行中的开发页面随源码变化刷新；其他电脑需先同步仓库，已部署页面仍需重新构建和部署。

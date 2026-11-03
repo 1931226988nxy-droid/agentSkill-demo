@@ -1,6 +1,6 @@
 # 组件选择路由
 
-具体属性、插槽和示例以真实 @jcc/shared/docs/ui.md 与源码为准。本文件只指导选择。当前完整导出名称见[公共库导出清单](library-catalog.md)。
+具体属性、插槽和示例以 [公共组件 API](../../frontend-workspace/docs/ui.md) 与源码为准。本文件只指导选择。当前完整导出名称见[公共库导出清单](library-catalog.md)。
 
 | 需要 | 使用 |
 |---|---|

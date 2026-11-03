@@ -1,8 +1,4 @@
 node_modules/
-**/dist/
+dist/
 .vite/
 coverage/
-artifacts/
-playwright-report/
-test-results/
-.tmp-shared-check/

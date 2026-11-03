@@ -1,6 +1,9 @@
 import { getCurrentScope, onScopeDispose, ref } from 'vue';
 
-/** 同一时刻复用同一次任务；任务接收 ({signal}, ...args)。 */
+/**
+ * 同一时刻的 run 调用复用同一个 Promise；任务接收 ({ signal }, ...args)。
+ * cancel 会发出取消信号，任务本身应传递 signal 或自行检查它。
+ */
 export function useAsyncTask(task) {
   const loading = ref(false),
     error = ref(null);

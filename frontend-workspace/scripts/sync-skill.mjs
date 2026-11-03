@@ -30,36 +30,33 @@ function namedExports(path) {
 }
 
 const groups = [
-  ['公共组件', 'packages/shared/src/components/index.js', '@jcc/shared/components'],
-  ['状态方法', 'packages/shared/src/hooks/index.js', '@jcc/shared/hooks'],
-  ['公共 API', 'packages/shared/src/api.js', '@jcc/shared/api'],
-  ['公共方法', 'packages/shared/src/utils.js', '@jcc/shared/utils'],
-  ['验证规则', 'packages/shared/src/validators.js', '@jcc/shared/validators'],
-  ['主题方法', 'packages/shared/src/theme/index.js', '@jcc/shared/theme'],
-  ['图片与图标 URL', 'packages/shared/src/assets.js', '@jcc/shared/assets'],
+  ['公共组件', 'src/components/index.js', '@jcc/shared/components'],
+  ['状态方法', 'src/hooks/index.js', '@jcc/shared/hooks'],
+  ['公共 API', 'src/api.js', '@jcc/shared/api'],
+  ['公共方法', 'src/utils.js', '@jcc/shared/utils'],
+  ['验证规则', 'src/validators.js', '@jcc/shared/validators'],
+  ['主题方法', 'src/theme/index.js', '@jcc/shared/theme'],
+  ['图片与图标 URL', 'src/assets.js', '@jcc/shared/assets'],
 ];
 
-const components = namedExports('packages/shared/src/components/index.js');
-const unexported = readdirSync(join(workspace, 'packages', 'shared', 'src', 'components')).filter(
+const components = namedExports('src/components/index.js');
+const unexported = readdirSync(join(workspace, 'src', 'components')).filter(
   (file) => file.endsWith('.vue') && !components.includes(file.slice(0, -4)),
 );
 if (unexported.length)
   throw new Error(`组件未从 @jcc/shared/components 导出：${unexported.join('、')}`);
 
-const utilsIndex = source('packages/shared/src/utils/index.js');
+const utilsIndex = source('src/utils/index.js');
 const originalMethods = [
   ...utilsIndex.matchAll(/export\s*\*\s*from\s*['"]\.\/([^'"]+)['"]/g),
-].flatMap((match) => namedExports(`packages/shared/src/utils/${match[1]}`));
-const sharedMethods = new Set([
-  ...namedExports('packages/shared/src/api.js'),
-  ...namedExports('packages/shared/src/utils.js'),
-]);
+].flatMap((match) => namedExports(`src/utils/${match[1]}`));
+const sharedMethods = new Set([...namedExports('src/api.js'), ...namedExports('src/utils.js')]);
 const omittedMethods = originalMethods.filter((name) => !sharedMethods.has(name));
 if (omittedMethods.length)
   throw new Error(`公共方法未从 @jcc/shared 公开：${omittedMethods.join('、')}`);
 
-const assetFiles = readdirSync(join(workspace, 'packages', 'shared', 'assets'));
-const packageExports = JSON.parse(source('packages/shared/package.json')).exports;
+const assetFiles = readdirSync(join(workspace, 'assets'));
+const packageExports = JSON.parse(source('package.json')).exports;
 const hiddenAssets = assetFiles.filter((file) => !packageExports[`./assets/${file}`]);
 if (hiddenAssets.length)
   throw new Error(`素材未从 @jcc/shared/package.json 导出：${hiddenAssets.join('、')}`);
@@ -82,11 +79,11 @@ for (const [title, path, importPath] of groups) {
 lines.push(
   '## 静态素材',
   '',
-  '素材目录位于 `packages/shared/assets`，可直接导入：',
+  '素材目录位于 `frontend-workspace/assets`，可直接导入：',
   '',
   ...assetFiles.map((file) => `- \`@jcc/shared/assets/${file}\``),
   '',
-  '新增组件或方法后先确认其公开导出与 API 文档，再运行 `npm run sync:skill`，最后运行相关测试和应用构建。',
+  '新增组件或方法后先确认其公开导出与 API 文档，再运行 `npm run sync:skill` 和 `npm run quality`。',
   '',
 );
 const catalog = lines.join('\n');

@@ -23,6 +23,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['update:page', 'update:pageSize', 'page-change', 'change', 'retry']);
 const tableRef = ref();
+// 服务端模式直接展示传入页；只有客户端模式才在组件内切片。
 const rows = computed(() =>
   props.pagination && props.mode === 'client'
     ? props.dataSource.slice((props.page - 1) * props.pageSize, props.page * props.pageSize)

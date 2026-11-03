@@ -1,7 +1,11 @@
 import { getCurrentScope, onScopeDispose, reactive, ref, toRaw } from 'vue';
 import { cloneQuery } from '../utils/index.js';
 
-/** fetcher({page,pageSize,filters,signal}) -> Promise<{items:Array,total:number}> */
+/**
+ * 管理服务端分页列表。fetcher({ page, pageSize, filters, signal })
+ * 应返回 Promise<{ items: Array, total: number }>，并尽量响应取消信号。
+ * filters 是表单草稿；调用 search 后才复制到 applied 并从第一页查询。
+ */
 export function useTableQuery({ fetcher, initialFilters = {}, pageSize = 20 } = {}) {
   if (typeof fetcher !== 'function') throw new Error('useTableQuery 需要 fetcher');
   const filters = reactive(cloneQuery(initialFilters));
@@ -17,6 +21,7 @@ export function useTableQuery({ fetcher, initialFilters = {}, pageSize = 20 } = 
     disposed = false;
   async function refresh() {
     if (disposed) return;
+    // 即使 fetcher 忽略 AbortSignal，也只允许最后一次请求写入状态。
     const id = ++sequence;
     controller?.abort();
     const currentController = (controller = new AbortController());
@@ -34,6 +39,7 @@ export function useTableQuery({ fetcher, initialFilters = {}, pageSize = 20 } = 
         throw new Error('列表接口应返回 { items: Array, total: 非负数 }');
       const lastPage = Math.max(1, Math.ceil(result.total / size.value));
       if (page.value > lastPage) {
+        // 删除最后一页数据后回退到有效页，再读取该页内容。
         page.value = lastPage;
         return refresh();
       }

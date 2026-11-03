@@ -10,6 +10,7 @@ export function listToTree(
     nodes.set(item[idKey], { ...item, [childrenKey]: [] });
   }
   const visited = new Set();
+  // 先沿父链检查循环，避免连接节点后形成无法安全遍历的树。
   for (const item of items) {
     const chain = new Set();
     let current = item[idKey];

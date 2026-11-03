@@ -15,6 +15,7 @@ const props = defineProps({
 const emit = defineEmits(['update:fileList', 'change', 'success', 'error']);
 const error = ref('');
 const pending = new Set();
+// 上传前同时执行公共文件校验与调用方校验；拒绝的文件不进入列表。
 async function before(file, list) {
   const validation = validateFile(file, { accept: props.accept, maxSizeMB: props.maxSizeMb });
   if (!validation.valid) {
@@ -34,6 +35,7 @@ async function before(file, list) {
   return true;
 }
 function customRequest({ file, onProgress, onSuccess, onError }) {
+  // 每个文件独立取消；组件卸载时会终止所有仍在进行的上传。
   const controller = new AbortController();
   pending.add(controller);
   Promise.resolve()
@@ -66,6 +68,7 @@ function customRequest({ file, onProgress, onSuccess, onError }) {
   };
 }
 function change(info) {
+  // fileList 是受控属性，上传结果通过事件交还调用方保存。
   const list = info.fileList.map((file) =>
     file.status === 'done'
       ? { ...file, data: file.response, url: file.response?.url || file.url }

@@ -1,3 +1,4 @@
+/** 非 2xx 响应的状态码和响应内容会保留在 status、details 中。 */
 export class HttpError extends Error {
   constructor(message, status, details) {
     super(message);
@@ -7,6 +8,11 @@ export class HttpError extends Error {
   }
 }
 
+/**
+ * 创建与业务无关的请求函数。getHeaders 可异步提供公共请求头，单次 headers 可覆盖它。
+ * query 数组会展开为重复参数；普通对象和数组 body 按 JSON 发送。
+ * 失败时抛出 HttpError，401 时先调用 onUnauthorized；204 返回 null。
+ */
 export function createHttpClient({
   baseURL = '',
   fetch: fetcher = globalThis.fetch,
@@ -59,6 +65,7 @@ export function createHttpClient({
         details,
       );
     }
+    // response 模式交由调用方读取原始响应体和响应头。
     if (responseType === 'response') return response;
     if (response.status === 204) return null;
     return response[responseType]();

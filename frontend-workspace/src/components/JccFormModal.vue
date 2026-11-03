@@ -20,6 +20,7 @@ let baseline = '';
 const { run, loading, error } = useAsyncTask(async ({ signal }, values) =>
   props.submit(values, { signal }),
 );
+// 每次打开时复制初始值，避免直接修改调用方的数据，并重置脏值基线。
 watch(
   () => props.open,
   async (open) => {
@@ -40,6 +41,7 @@ function close() {
   discardOpen.value = false;
 }
 function cancel() {
+  // 提交期间禁止关闭；仅在内容发生变化时提示放弃修改。
   if (loading.value) return;
   if (JSON.stringify(model) !== baseline) discardOpen.value = true;
   else close();
