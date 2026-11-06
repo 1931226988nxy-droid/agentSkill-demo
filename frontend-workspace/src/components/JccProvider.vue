@@ -3,6 +3,7 @@ import { computed, onBeforeMount, ref } from 'vue';
 import { ConfigProvider } from 'ant-design-vue';
 import zhCN from 'ant-design-vue/es/locale/zh_CN.js';
 import { createAntTheme } from '../theme/index.js';
+import JccModalHost from './internal/JccModalHost.vue';
 defineOptions({ inheritAttrs: false });
 const props = defineProps({
   theme: { type: Object, default: () => ({}) },
@@ -31,5 +32,6 @@ const resolved = computed(() => ({
 <template>
   <ConfigProvider :theme="resolved" :locale="locale" :component-size="size">
     <div v-bind="$attrs" class="frontend-system"><slot /></div>
+    <JccModalHost />
   </ConfigProvider>
 </template>

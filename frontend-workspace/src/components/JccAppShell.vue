@@ -41,12 +41,14 @@ const title = computed(() => props.items.find((item) => item.key === props.activ
     </div>
     <div class="fs-header-tools">
       <slot name="header-actions" />
-      <div class="fs-user">
-        <Avatar :size="28">
-          <template #icon><UserOutlined /></template>
-        </Avatar>
-        <span>{{ userName }}</span>
-      </div>
+      <slot name="user" :user-name="userName" :department="department">
+        <div class="fs-user">
+          <Avatar :size="28">
+            <template #icon><UserOutlined /></template>
+          </Avatar>
+          <span>{{ userName }}</span>
+        </div>
+      </slot>
     </div>
   </header>
   <Layout class="fs-main-layout">

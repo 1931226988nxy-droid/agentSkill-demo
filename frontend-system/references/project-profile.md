@@ -4,7 +4,7 @@
 |---|---|---|
 | 技术栈 | Vue 3 + Ant Design Vue 4.x + JavaScript | `<script setup>`，不默认引入 TS |
 | 公共库源码入口 | @jcc/shared 0.1.0 | 包根目录为 frontend-workspace；本机项目用 npm link |
-| 公共组件 | @jcc/shared/components | shared 内的 11 个组件 |
+| 公共组件 | @jcc/shared/components | 13 个组件及 `openModal` 方法 |
 | 状态、API、方法、规则、素材 | @jcc/shared/hooks、api、utils、validators、assets | 以自动生成的导出清单为准 |
 | 主题 | @jcc/shared/style.css、theme | 包含统一样式和 Ant Token 映射 |
 | 工程根目录 | frontend-workspace | 链接后从项目依赖解析位置确认 |

@@ -11,7 +11,7 @@ theme 对象：与默认 token/components 合并。locale 默认中文，size �
 ## JccAppShell / JccPagePanel / JccQueryBar
 
 - AppShell：v-model:activeKey、v-model:collapsed、items（Ant Menu items）、brand、shortName、brandMark、userName、department、showTabs。
-- AppShell 插槽：default、brand、header-actions、footer。不绑定任何业务路由/权限系统。
+- AppShell 插槽：default、brand、header-actions、user（可替换右侧用户入口，传入 userName、department）、footer。不绑定任何业务路由/权限系统。
 - PagePanel：title；插槽 default、breadcrumb、header、extra。
 - QueryBar：loading、showReset；事件 search/reset；插槽 actions（左侧操作）、default（查询字段）。Enter 触发 search。
 
@@ -64,6 +64,24 @@ treeData、v-model:selectedKeys、fieldNames（默认 {label:'title',value:'key'
 字段映射支持主键 0。搜索保留匹配节点祖先，匹配父节点保留分支；搜索时自动展开结果。
 事件 select(keys,info)、search(keyword)，原生节点插槽和非冲突属性透传。checkedKeys/expandedKeys 等由原生 attrs 与事件管理。
 
+## JccTreeTableLayout
+
+用于左侧树、右侧表格的页面布局。只负责分栏、拖拽、键盘调整宽度和窄屏树区域折叠；树数据、筛选、工具栏、表格及返回路由由业务插槽提供。右侧使用 JccTable 时，组件会提供完整单元格边框和常显的加粗滚动条。
+
+- 插槽：`tree-header`（左侧标题与返回入口）、`tree`（树内容）、`content-header`（右侧标题）、`toolbar`（操作与查询）、默认插槽（通常为 JccTable）。
+- 属性：`treeLabel`、`separatorLabel` 控制可访问名称；`mobileOpen` 控制 760px 以下树内容的显示；`defaultTreeWidth`、`minTreeWidth`、`maxTreeWidth`、`minContentWidth` 的单位均为 px。默认宽度按容器的 24% 计算并限制在 200–300px，最小树宽 180px、最大树宽 480px；拖拽时为右侧保留至少 300px，分隔线另占 10px。页面可用这些属性覆盖默认边界。
+- 事件：`resize(width)` 在拖拽、方向键调整或容器收窄导致宽度变化时触发。分隔线支持左右方向键，每次调整 24px。
+
+```vue
+<JccTreeTableLayout :mobile-open="treeOpen" tree-label="分类" separator-label="调整分类宽度">
+  <template #tree-header><h1>图书编目</h1></template>
+  <template #tree><JccTree :tree-data="categories" /></template>
+  <template #content-header><h2>全部图书</h2></template>
+  <template #toolbar><JccQueryBar @search="search" /></template>
+  <JccTable :columns="columns" :data-source="books" :scroll="{ x: 900 }" />
+</JccTreeTableLayout>
+```
+
 ## JccTreeSelect
 
 treeData、v-model:value、fieldNames 与 Tree 一致。默认可搜索、清除和展开；change(value,label,extra) 原样回传。
@@ -112,6 +130,48 @@ async function download(file, { signal }) {
 
 v-model:open、title、initialValues（普通 JSON 数据）、rules（Ant Form rules）、submit(values,{signal})、width。
 打开时克隆初始数据；默认插槽拿到 {model}，里面放原生 Form.Item；由组件维护 Form。
+内部使用 JccModal，标题可拖拽，标题区按钮可切换全屏；每次重新打开默认退出全屏。
 校验通过后等待 submit Promise；成功 emit saved(result,values) 并关闭；失败保留内容显示错误，取消脏表单需确认。
 submit 必须返回真实接口 Promise，不要写成只 emit 一个异步事件而无法等待。
 事件 saved、cancel、error、update:open；非冲突 Modal attrs 可传递；open、onOk、onCancel、confirmLoading 等由本组件管理。
+
+## JccModal / openModal
+
+`JccModal` 是通用受控弹窗，支持 `v-model:open`、`v-model:fullscreen`、`title` 和 `draggable`（默认 true）。其余 Ant Modal 属性和事件可透传；`modalRender` 由拖拽功能占用。默认插槽为内容，`title`、`footer` 为具名插槽。鼠标按住标题拖拽，位置限制在视口内；全屏按钮可切换全屏，切换时重置拖拽位移。事件 `ok`、`cancel`、`update:open`、`update:fullscreen`。
+
+在已挂载的 `JccProvider` 下，可从任意业务组件的点击事件中调用 `openModal(options)`。弹窗内容继承应用的 Vue 注入、Ant 主题和语言。`options`：
+
+| 字段                                       | 用途                                                                                     |
+| ------------------------------------------ | ---------------------------------------------------------------------------------------- |
+| `component`                                | 必填；弹窗内渲染的 Vue 组件                                                              |
+| `props`                                    | 传给内容组件的属性                                                                       |
+| `on`                                       | 内容组件的自定义事件回调，键用事件名（如 `saved`、`update:value`）                       |
+| `slots`                                    | 内容组件的具名插槽                                                                       |
+| `modalProps`                               | 传给 Ant Modal 的属性和事件，如 `title`、`width`、`footer`、`getContainer`、`afterClose` |
+| `modalSlots`                               | 弹窗的 `title`、`footer` 具名插槽                                                        |
+| `draggable` / `fullscreen`                 | 是否可拖拽 / 初始是否全屏                                                                |
+| `onOk` / `onCancel` / `onFullscreenChange` | 弹窗事件回调，接收 `(event, handle)`；全屏回调接收 `(fullscreen, handle)`                |
+
+`openModal` 返回 `{ close(), setFullscreen(boolean) }`。默认取消会关闭；确定只调用 `onOk`，业务可在保存成功后调用 `handle.close()`。内容组件的自定义事件不会自动关闭弹窗，回调可自行决定。`open`、`fullscreen` 和 `modalRender` 由封装管理，不通过 `modalProps` 覆盖。卸载 `JccProvider` 会清理弹窗。
+
+```js
+import { openModal } from '@jcc/shared/components';
+import UserEditor from './UserEditor.vue';
+
+function edit(user) {
+  const modal = openModal({
+    component: UserEditor,
+    props: { user },
+    on: {
+      saved(result) {
+        refresh();
+        modal.close();
+      },
+    },
+    modalProps: { title: '编辑用户', width: 720, footer: null },
+    onFullscreenChange(fullscreen) {
+      console.log(fullscreen);
+    },
+  });
+}
+```

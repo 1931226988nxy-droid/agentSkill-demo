@@ -4,7 +4,7 @@
 
 源码链接入口：`@jcc/shared`。在应用入口单独导入 `@jcc/shared/style.css`。组件细节以真实源码和 API 文档为准。
 
-## 公共组件
+## 公共组件与调用方法
 
 导入路径：`@jcc/shared/components`；导出源码：共享包 `src/components/index.js`。
 
@@ -12,10 +12,13 @@
 - `JccTable`
 - `JccPagination`
 - `JccTree`
+- `JccTreeTableLayout`
 - `JccTreeSelect`
 - `JccUpload`
 - `JccDownload`
 - `JccFormModal`
+- `JccModal`
+- `openModal`
 - `JccPagePanel`
 - `JccQueryBar`
 - `JccAppShell`

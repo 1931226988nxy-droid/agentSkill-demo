@@ -1,8 +1,9 @@
 <script setup>
 import { nextTick, reactive, ref, watch } from 'vue';
-import { Alert, Button, Form, Modal, Space } from 'ant-design-vue';
+import { Alert, Button, Form, Space } from 'ant-design-vue';
 import { cloneQuery } from '../utils/index.js';
 import { useAsyncTask } from '../hooks/index.js';
+import JccModal from './JccModal.vue';
 defineOptions({ inheritAttrs: false });
 const props = defineProps({
   open: Boolean,
@@ -15,7 +16,8 @@ const props = defineProps({
 const emit = defineEmits(['update:open', 'saved', 'cancel', 'error']);
 const model = reactive({}),
   formRef = ref(),
-  discardOpen = ref(false);
+  discardOpen = ref(false),
+  fullscreen = ref(false);
 let baseline = '';
 const { run, loading, error } = useAsyncTask(async ({ signal }, values) =>
   props.submit(values, { signal }),
@@ -29,6 +31,7 @@ watch(
     Object.assign(model, cloneQuery(props.initialValues));
     baseline = JSON.stringify(model);
     discardOpen.value = false;
+    fullscreen.value = false;
     error.value = null;
     await nextTick();
     formRef.value?.clearValidate();
@@ -66,9 +69,10 @@ async function save() {
 defineExpose({ formRef, model });
 </script>
 <template>
-  <Modal
+  <JccModal
     v-bind="$attrs"
     :open="open"
+    v-model:fullscreen="fullscreen"
     :title="title"
     :width="width"
     :confirm-loading="loading"
@@ -93,5 +97,5 @@ defineExpose({ formRef, model });
         </Space>
       </template>
     </Alert>
-  </Modal>
+  </JccModal>
 </template>

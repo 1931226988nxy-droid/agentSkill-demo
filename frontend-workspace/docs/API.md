@@ -6,7 +6,7 @@
 
 | 子路径                   | 内容                            | 详细契约        |
 | ------------------------ | ------------------------------- | --------------- |
-| `@jcc/shared/components` | 11 个 Jcc 组件                  | `docs/ui.md`    |
+| `@jcc/shared/components` | 13 个 Jcc 组件及 `openModal`    | `docs/ui.md`    |
 | `@jcc/shared/hooks`      | 查询与异步状态方法              | `docs/hooks.md` |
 | `@jcc/shared/api`        | `createHttpClient`、`HttpError` | `docs/utils.md` |
 | `@jcc/shared/utils`      | 树、文件、格式化、防抖等方法    | `docs/utils.md` |

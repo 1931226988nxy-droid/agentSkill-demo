@@ -30,7 +30,7 @@ function namedExports(path) {
 }
 
 const groups = [
-  ['公共组件', 'src/components/index.js', '@jcc/shared/components'],
+  ['公共组件与调用方法', 'src/components/index.js', '@jcc/shared/components'],
   ['状态方法', 'src/hooks/index.js', '@jcc/shared/hooks'],
   ['公共 API', 'src/api.js', '@jcc/shared/api'],
   ['公共方法', 'src/utils.js', '@jcc/shared/utils'],
