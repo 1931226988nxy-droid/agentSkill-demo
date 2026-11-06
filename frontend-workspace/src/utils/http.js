@@ -12,6 +12,8 @@ export class HttpError extends Error {
  * 创建与业务无关的请求函数。getHeaders 可异步提供公共请求头，单次 headers 可覆盖它。
  * query 数组会展开为重复参数；普通对象和数组 body 按 JSON 发送。
  * 失败时抛出 HttpError，401 时先调用 onUnauthorized；204 返回 null。
+ * @param {import('../../types/api.js').HttpClientOptions} [options]
+ * @returns {import('../../types/api.js').HttpClient}
  */
 export function createHttpClient({
   baseURL = '',

@@ -3,16 +3,44 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "types": "./types/index.d.ts",
   "exports": {
-    ".": "./src/index.js",
-    "./components": "./src/components/index.js",
-    "./hooks": "./src/hooks/index.js",
-    "./api": "./src/api.js",
-    "./utils": "./src/utils.js",
-    "./validators": "./src/validators.js",
-    "./theme": "./src/theme/index.js",
-    "./assets": "./src/assets.js",
-    "./vite": "./vite.live.js",
+    ".": {
+      "types": "./types/index.d.ts",
+      "default": "./src/index.js"
+    },
+    "./components": {
+      "types": "./types/components.d.ts",
+      "default": "./src/components/index.js"
+    },
+    "./hooks": {
+      "types": "./types/hooks.d.ts",
+      "default": "./src/hooks/index.js"
+    },
+    "./api": {
+      "types": "./types/api.d.ts",
+      "default": "./src/api.js"
+    },
+    "./utils": {
+      "types": "./types/utils.d.ts",
+      "default": "./src/utils.js"
+    },
+    "./validators": {
+      "types": "./types/validators.d.ts",
+      "default": "./src/validators.js"
+    },
+    "./theme": {
+      "types": "./types/theme.d.ts",
+      "default": "./src/theme/index.js"
+    },
+    "./assets": {
+      "types": "./types/assets.d.ts",
+      "default": "./src/assets.js"
+    },
+    "./vite": {
+      "types": "./types/vite.d.ts",
+      "default": "./vite.live.js"
+    },
     "./assets/document.svg": "./assets/document.svg",
     "./assets/add.svg": "./assets/add.svg",
     "./style.css": "./src/style.css"
@@ -21,30 +49,43 @@
     "**/*.css"
   ],
   "peerDependencies": {
-    "vue": "^3.5.0",
+    "@ant-design/icons-vue": "^7.0.0",
     "ant-design-vue": "^4.2.6",
-    "@ant-design/icons-vue": "^7.0.0"
+    "vue": "^3.5.0"
   },
   "engines": {
     "node": "^20.19.0 || >=22.12.0"
   },
   "scripts": {
+    "dev": "vite --config vite.preview.js",
+    "build:preview": "vite build --config vite.preview.js",
+    "preview": "vite preview --config vite.preview.js",
     "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:browser": "playwright test --grep-invert @visual",
+    "test:visual": "playwright test --grep @visual",
+    "test:visual:update": "playwright test --grep @visual --update-snapshots",
+    "check:types": "node scripts/check-types.mjs",
+    "check:docs": "node scripts/check-docs.mjs",
     "sync:skill": "node scripts/sync-skill.mjs",
     "check:skill": "node scripts/sync-skill.mjs --check",
-    "quality": "npm run format:check && npm run check:skill && npm test",
-    "format": "prettier --write \"src/**/*.{js,vue,css}\" \"docs/**/*.md\" \"tests/**/*.js\" \"scripts/*.mjs\" \"*.{js,json}\"",
-    "format:check": "prettier --check \"src/**/*.{js,vue,css}\" \"docs/**/*.md\" \"tests/**/*.js\" \"scripts/*.mjs\" \"*.{js,json}\""
+    "quality": "npm run format:check && npm run check:docs && npm run check:skill && npm run check:types && npm run test:coverage",
+    "format": "prettier --write \"src/**/*.{js,vue,css}\" \"playground/**/*.{js,vue,css,html}\" \"types/**/*.ts\" \"docs/**/*.md\" \"tests/**/*.{js,ts,json}\" \"scripts/*.mjs\" \"*.{js,json}\" ../README.md ../CHANGELOG.md ../使用说明.md ../.github/workflows/frontend-quality.yml",
+    "format:check": "prettier --check \"src/**/*.{js,vue,css}\" \"playground/**/*.{js,vue,css,html}\" \"types/**/*.ts\" \"docs/**/*.md\" \"tests/**/*.{js,ts,json}\" \"scripts/*.mjs\" \"*.{js,json}\" ../README.md ../CHANGELOG.md ../使用说明.md ../.github/workflows/frontend-quality.yml"
   },
   "devDependencies": {
     "@ant-design/icons-vue": "7.0.1",
+    "@fontsource/noto-sans-sc": "5.3.1",
+    "@playwright/test": "1.65.0",
     "@vitejs/plugin-vue": "6.0.10",
+    "@vitest/coverage-v8": "4.1.12",
     "@vue/test-utils": "2.4.6",
     "ant-design-vue": "4.2.6",
     "jsdom": "26.1.0",
     "prettier": "^3.6.0",
+    "typescript": "5.9.3",
     "vite": "8.3.5",
-    "vitest": "^4.0.0",
+    "vitest": "4.1.12",
     "vue": "3.5.44"
   }
 }

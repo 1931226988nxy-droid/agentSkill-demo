@@ -26,6 +26,17 @@ watch(
   },
 );
 
+// 外部 v-model 和 handle.setFullscreen 也走相同的拖拽复位逻辑。
+watch(
+  () => props.fullscreen,
+  () => {
+    stopDrag();
+    offset.x = 0;
+    offset.y = 0;
+  },
+  { flush: 'sync' },
+);
+
 const wrapClassName = computed(() =>
   [
     'jcc-modal-wrap',

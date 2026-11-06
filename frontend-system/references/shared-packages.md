@@ -5,3 +5,5 @@
 应用入口导入 `ant-design-vue/dist/reset.css` 和 `@jcc/shared/style.css`；组件从 `@jcc/shared/components` 导入，其他类别见[导出清单](library-catalog.md)。新增组件或方法后更新源码导出和 API 文档，输入“同步公共组件库 skill”运行 `npm run sync:skill`。链接项目的 Vite 开发服务直接读取源码变化；新增依赖或导出路径时重启服务。
 
 通用组件、样式、无业务方法、请求封装和共享素材归公共库；业务字段、后端 URL、权限、接口响应适配和业务图片归各应用。跨电脑使用时需要可共同访问的源码目录或其他同步机制；已部署页面仍需重新构建和部署。
+
+正式交付固定经审核的源码提交，触发条件与独立 checkout 示例见共享包 `docs/enterprise-playbook.md`。各 JS 入口提供 `types/*.d.ts`；新增公开 API 同时补充类型与 CHANGELOG。预览入口为包根目录 `npm run dev`。

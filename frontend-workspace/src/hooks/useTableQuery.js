@@ -5,6 +5,10 @@ import { cloneQuery } from '../utils/index.js';
  * 管理服务端分页列表。fetcher({ page, pageSize, filters, signal })
  * 应返回 Promise<{ items: Array, total: number }>，并尽量响应取消信号。
  * filters 是表单草稿；调用 search 后才复制到 applied 并从第一页查询。
+ * @template T
+ * @template {object} F
+ * @param {import('../../types/hooks.js').TableQueryOptions<T, F>} options
+ * @returns {import('../../types/hooks.js').TableQuery<T, F>}
  */
 export function useTableQuery({ fetcher, initialFilters = {}, pageSize = 20 } = {}) {
   if (typeof fetcher !== 'function') throw new Error('useTableQuery 需要 fetcher');

@@ -1,6 +1,7 @@
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
+import { catalogMatches, createExportReader } from './library-exports.mjs';
 
 const workspace = fileURLToPath(new URL('..', import.meta.url));
 const skill = join(workspace, '..', 'frontend-system');
@@ -8,25 +9,6 @@ const output = join(skill, 'references', 'library-catalog.md');
 
 function source(path) {
   return readFileSync(join(workspace, path), 'utf8');
-}
-
-function namedExports(path) {
-  const code = source(path);
-  const entries = [];
-  for (const match of code.matchAll(/export\s*\{([^}]+)\}\s*from\s*['"][^'"]+['"]/g)) {
-    for (const item of match[1].split(',')) {
-      const name = item
-        .trim()
-        .split(/\s+as\s+/)
-        .at(-1);
-      if (name) entries.push(name);
-    }
-  }
-  for (const match of code.matchAll(
-    /export\s+(?:(?:async|default)\s+)?(?:function|class|const)\s+([\w$]+)/g,
-  ))
-    entries.push(match[1]);
-  return [...new Set(entries)];
 }
 
 const groups = [
@@ -39,6 +21,20 @@ const groups = [
   ['图片与图标 URL', 'src/assets.js', '@jcc/shared/assets'],
 ];
 
+const packageExports = JSON.parse(source('package.json')).exports;
+const typedEntries = Object.entries(packageExports).filter(
+  ([, entry]) => typeof entry === 'object',
+);
+const readExports = createExportReader([
+  ...groups.map(([, path]) => join(workspace, path)),
+  join(workspace, 'src/utils/index.js'),
+  ...typedEntries.flatMap(([, entry]) => [
+    join(workspace, entry.default),
+    join(workspace, entry.types),
+  ]),
+]);
+const namedExports = (path) => readExports(join(workspace, path));
+
 const components = namedExports('src/components/index.js');
 const unexported = readdirSync(join(workspace, 'src', 'components')).filter(
   (file) => file.endsWith('.vue') && !components.includes(file.slice(0, -4)),
@@ -46,17 +42,20 @@ const unexported = readdirSync(join(workspace, 'src', 'components')).filter(
 if (unexported.length)
   throw new Error(`组件未从 @jcc/shared/components 导出：${unexported.join('、')}`);
 
-const utilsIndex = source('src/utils/index.js');
-const originalMethods = [
-  ...utilsIndex.matchAll(/export\s*\*\s*from\s*['"]\.\/([^'"]+)['"]/g),
-].flatMap((match) => namedExports(`src/utils/${match[1]}`));
+const originalMethods = namedExports('src/utils/index.js');
 const sharedMethods = new Set([...namedExports('src/api.js'), ...namedExports('src/utils.js')]);
 const omittedMethods = originalMethods.filter((name) => !sharedMethods.has(name));
 if (omittedMethods.length)
   throw new Error(`公共方法未从 @jcc/shared 公开：${omittedMethods.join('、')}`);
 
 const assetFiles = readdirSync(join(workspace, 'assets'));
-const packageExports = JSON.parse(source('package.json')).exports;
+// 类型声明必须跟随每一个公开 JS 入口；类型检查另由消费方示例验证。
+for (const [subpath, entry] of typedEntries) {
+  const declared = new Set(namedExports(entry.types));
+  const expected = namedExports(entry.default);
+  const missing = expected.filter((name) => !declared.has(name));
+  if (missing.length) throw new Error(`${subpath} 缺少公开类型：${missing.join('、')}`);
+}
 const hiddenAssets = assetFiles.filter((file) => !packageExports[`./assets/${file}`]);
 if (hiddenAssets.length)
   throw new Error(`素材未从 @jcc/shared/package.json 导出：${hiddenAssets.join('、')}`);
@@ -87,7 +86,7 @@ lines.push(
 );
 const catalog = lines.join('\n');
 if (process.argv.includes('--check')) {
-  if (readFileSync(output, 'utf8') !== catalog) {
+  if (!catalogMatches(readFileSync(output, 'utf8'), catalog)) {
     throw new Error('公共库导出清单已过期：运行 npm run sync:skill 后提交更新。');
   }
   console.log('公共库导出清单与公开源码一致。');

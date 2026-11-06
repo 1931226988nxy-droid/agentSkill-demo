@@ -23,4 +23,5 @@ fetcher({page,pageSize,filters,signal}) 返回 Promise<{items:Array,total:number
 task({signal},...args) 返回 Promise。返回 run(...args)、loading、error、cancel。
 同一实例忙碌时复用同一个 Promise，避免重复请求；完成后可重新执行。失败保留 error 并向调用者抛出，由调用者处理。
 取消后拒绝晚到成功，取消错误不记成业务 error；scope 销毁时取消。
+`cancel()` 立即结束当前忙碌状态，下一次 `run()` 可立即开始。旧任务晚到的完成/失败/finally 不会清空新任务的 loading 或错误；取消发生在任务调度前时不调用适配器。
 底层适配器应响应 signal，否则无法真正终止网络请求；hook 仍会阻止把结果当成成功。

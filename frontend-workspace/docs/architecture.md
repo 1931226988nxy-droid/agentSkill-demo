@@ -1,6 +1,6 @@
 # 公共库结构与复用边界
 
-`frontend-workspace` 是 `@jcc/shared` 的包根目录；它是可直接链接的前端源码包，不包含示例应用或后端服务。
+`frontend-workspace` 是 `@jcc/shared` 的包根目录，提供可直接链接的前端源码。`playground` 仅用于公共组件预览，使用本地数据。
 
 ```text
 frontend-workspace/
@@ -11,6 +11,8 @@ frontend-workspace/
     utils/       请求、树、文件和格式方法
     theme/       CSS 变量、布局和 Ant Token
   docs/          公共 API 与接入约定
+  types/         公开入口的类型声明
+  playground/    直接引用本库的组件预览
   tests/         组件、hooks 和方法测试
   scripts/       skill 清单与安装脚本
 ```

@@ -3,6 +3,7 @@ import { h, onBeforeUnmount, onMounted, shallowReactive, toHandlerKey, camelize 
 import JccModal from '../JccModal.vue';
 import { registerModalHost } from '../modalService.js';
 
+const props = defineProps({ scope: { type: Object, required: true } });
 const entries = shallowReactive([]);
 let unregister;
 let nextId = 0;
@@ -24,7 +25,10 @@ function open(options) {
       entry.open = false;
     },
     setFullscreen(value) {
-      entry.fullscreen = Boolean(value);
+      const next = Boolean(value);
+      if (entry.fullscreen === next) return;
+      entry.fullscreen = next;
+      options.onFullscreenChange?.(next, handle);
     },
   };
   entry.handle = handle;
@@ -33,7 +37,7 @@ function open(options) {
 }
 
 onMounted(() => {
-  unregister = registerModalHost({ open });
+  unregister = registerModalHost({ open }, props.scope);
 });
 onBeforeUnmount(() => {
   unregister?.();
@@ -49,14 +53,7 @@ function renderContent(entry) {
 }
 
 function renderEntry(entry) {
-  const {
-    modalProps = {},
-    modalSlots = {},
-    draggable = true,
-    onOk,
-    onCancel,
-    onFullscreenChange,
-  } = entry.options;
+  const { modalProps = {}, modalSlots = {}, draggable = true, onOk, onCancel } = entry.options;
   return h(
     JccModal,
     {
@@ -67,10 +64,7 @@ function renderEntry(entry) {
       'onUpdate:open': (value) => {
         entry.open = value;
       },
-      'onUpdate:fullscreen': (value) => {
-        entry.fullscreen = value;
-        onFullscreenChange?.(value, entry.handle);
-      },
+      'onUpdate:fullscreen': entry.handle.setFullscreen,
       onOk: (event) => (onOk || modalProps.onOk)?.(event, entry.handle),
       onCancel: (event) => (onCancel || modalProps.onCancel)?.(event, entry.handle),
       afterClose: () => {

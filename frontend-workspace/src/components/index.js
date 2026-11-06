@@ -9,7 +9,7 @@ export { default as JccUpload } from './JccUpload.vue';
 export { default as JccDownload } from './JccDownload.vue';
 export { default as JccFormModal } from './JccFormModal.vue';
 export { default as JccModal } from './JccModal.vue';
-export { openModal } from './modalService.js';
+export { openModal, useModal } from './modalService.js';
 export { default as JccPagePanel } from './JccPagePanel.vue';
 export { default as JccQueryBar } from './JccQueryBar.vue';
 export { default as JccAppShell } from './JccAppShell.vue';

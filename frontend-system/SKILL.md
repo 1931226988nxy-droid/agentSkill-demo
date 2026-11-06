@@ -34,12 +34,14 @@ description: "在 Vue 3 + Ant Design Vue + JavaScript 项目使用或维护 @jcc
 2. 优先组合已有组件及插槽、透传属性，不为一个业务页面新增庞大配置框架。
 3. 列表默认采用 `useTableQuery` 和服务端分页；组件不会二次切片。纯本地数组明确使用 client 模式。
 4. 接口在应用适配为 `{items,total}`；上传适配为 `upload(file,{signal,onProgress})`，下载适配为 `request(file,{signal}) -> Blob/{blob,filename}`。
-5. 新增有明确复用价值的能力时修改公共包，补充 API 与行为测试；业务专属逻辑留在应用。
-6. 在公共包运行 `npm run quality`；使用项目负责自己的构建和视觉检查。
+5. 新增有明确复用价值的能力时修改公共包，补充 API、`types` 下的公开类型与行为测试，并在根目录 CHANGELOG 的 Unreleased 记录影响；业务专属逻辑留在应用。
+6. 在公共包运行 `npm run quality`（包含文档链接/命令、导出类型、消费方类型和覆盖率门禁）与 `npm run build:preview`。组件或主题改动再运行 `npm run test:browser`、`npm run test:visual`；通过 `npm run dev` 查看真实组件预览。截图更新须目视审核，流程见共享包 `docs/design-system.md`。使用项目继续负责业务构建与页面验收。
 
 交付说明修改了哪些应用/公共包、兼容性及验证结果。改变共享 API 或接入范围时明确说明；链接项目开发时直接读源码，生产页面仍需重新构建部署。
 
 多项目交付时按需读取共享包的 `docs/enterprise-playbook.md` 和 `docs/design-system.md`，并遵守目标项目自己的 AGENTS.md。
+
+本机开发可继续源码联动；独立上线项目的交付按 playbook 固定 Git 提交。`private: true` 不代表已有发布流程，未创建的版本标签不得当作已发布版本。
 
 ## 固定更新指令
 

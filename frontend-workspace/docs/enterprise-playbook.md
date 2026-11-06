@@ -14,15 +14,22 @@
 ## 提交与验收
 
 - 每个公共能力记录公开导出、API 文档和有价值的行为测试。未公开的实现不写入 skill 清单。
-- `npm run quality` 检查格式、skill 清单和公共库测试；各使用项目负责自己的构建与视觉验收。
+- `npm run quality` 检查格式、文档链接、公开导出与类型、消费方类型契约和带覆盖率的行为测试；再运行 `npm run build:preview`、`npm run test:browser` 与 `npm run test:visual` 验证浏览器。
 - 使用固定指令“同步公共组件库 skill”时运行 `npm run sync:skill`，生成 `frontend-system/references/library-catalog.md`。
-- 在代码托管平台启用 PR 必须通过 `.github/workflows/frontend-quality.yml` 的检查。当前仓库未配置远端，推送后才能运行该流程。
+- 仓库位于 [GitHub](https://github.com/1931226988nxy-droid/agentSkill-demo)，push/PR 会触发 `.github/workflows/frontend-quality.yml`。维护者需在分支保护或 ruleset 中将 `verify` 配为必须通过；仓库里的 workflow 文件不会自动开启分支保护。
 
 ## 版本与跨电脑交付
 
-`@jcc/shared` 当前是 `private: true` 的源码包。交付方式是 Git 同步源码与本机链接，无需手工生成单包文件。对公共 API 做不兼容修改时，先记录影响项目与迁移方案，再由各项目的构建检查确认。
+`@jcc/shared` 当前是 `private: true` 的源码包，包版本为 `0.1.0`；`private` 用于防止误发布。开发通过 Git 同步与本机链接读取源码，变更写入根目录 [CHANGELOG](../../CHANGELOG.md) 的 Unreleased。
 
-如果未来需要跨电脑自动分发稳定版本，可另行配置企业私有 registry 和版本发布流程；这需要代码托管与 registry 地址。生产环境需要经过构建与部署才能获得更新。
+以下任一条件出现时，在下一次交付前启用固定版本管理：第二个需要独立上线的项目接入；首次修改不兼容的公共 API；跨开发机或 CI 需要复现同一份公共库。
+
+- 发布记录使用 SemVer。`0.x` 阶段不兼容变更提升次版本（例如 `0.1.0 → 0.2.0`），兼容新增或修复提升补丁版本；进入 `1.0.0` 后，不兼容提升主版本、兼容新增提升次版本、修复提升补丁版本。
+- 更新 package.json 与锁文件中的包版本，将 Unreleased 移至版本段，记录影响范围、迁移步骤和源码提交。完成质量检查和使用方验证后创建 `v版本号` Git 标签。尚未创建的标签不得写成已发布版本。
+- 正式交付从独立源码 checkout 接入，固定经过审核的完整 Git SHA（可由标签解析得到），在应用的依赖记录中保存版本、SHA、迁移情况与验证结果。避免将生产构建链接到日常变动的开发目录。
+- 同机可用 `git worktree add --detach ../jcc-release-0.1.0 0e8fe76` 建立已有基线的独立目录，再从该目录的 `frontend-workspace` 执行 `npm ci`、`npm link`。业务项目继续按使用说明接入；后续升级由应用主动选择新提交。
+
+版本化仍可交付 `.vue`、JS、CSS 源码，无需生成单个 bundle。更多团队需要自动下载时，再配置企业 registry 并发布源码包。生产应用仍需构建与部署才能更新。
 
 ## 知识入口
 

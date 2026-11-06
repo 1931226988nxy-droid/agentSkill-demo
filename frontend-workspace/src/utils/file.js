@@ -1,4 +1,9 @@
-/** 前端体验校验；服务端仍应核验大小、实际文件内容与访问权限。 */
+/**
+ * 前端体验校验；服务端仍应核验大小、实际文件内容与访问权限。
+ * @param {Pick<File, 'name' | 'type' | 'size'>} file
+ * @param {{accept?: string, maxSizeMB?: number}} [options]
+ * @returns {{valid: boolean, error: string}}
+ */
 export function validateFile(file, { accept = '', maxSizeMB = 10 } = {}) {
   if (!Number.isFinite(maxSizeMB) || maxSizeMB < 0) throw new Error('maxSizeMB 必须为非负有限数值');
   if (file.size > maxSizeMB * 1024 * 1024)

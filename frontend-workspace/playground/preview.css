@@ -1,0 +1,42 @@
+:root {
+  --font-family: 'Noto Sans SC', sans-serif;
+}
+.preview-theme-select {
+  width: 125px;
+}
+.preview-theme-green {
+  --color-primary: #16856b;
+  --header-start: #13795b;
+  --header-mid: #16856b;
+  --header-end: #28b6a1;
+  --color-selection: #e2f4ee;
+  --color-selection-text: #13795b;
+}
+.preview-intro {
+  display: grid;
+  gap: 12px;
+  margin-block: 20px;
+}
+.preview-section {
+  display: grid;
+  justify-items: start;
+  gap: 20px;
+  padding-block: 20px;
+}
+.preview-editor {
+  display: grid;
+  gap: 16px;
+  padding: 12px 0;
+  font-family: 'Noto Sans SC', sans-serif;
+}
+.preview-editor p {
+  color: #667085;
+}
+.preview-mobile-toggle {
+  display: none;
+}
+@media (max-width: 760px) {
+  .preview-mobile-toggle {
+    display: inline-block;
+  }
+}

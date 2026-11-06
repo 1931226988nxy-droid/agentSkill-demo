@@ -133,18 +133,27 @@ v-model:open、title、initialValues（普通 JSON 数据）、rules（Ant Form 
 内部使用 JccModal，标题可拖拽，标题区按钮可切换全屏；每次重新打开默认退出全屏。
 校验通过后等待 submit Promise；成功 emit saved(result,values) 并关闭；失败保留内容显示错误，取消脏表单需确认。
 submit 必须返回真实接口 Promise，不要写成只 emit 一个异步事件而无法等待。
+外部关闭会取消当前提交；重新打开建立新会话。旧请求即使忽略取消信号，也不会关闭新表单或回传旧的 saved/error。后端是否停止处理仍取决于适配器及服务端。
 事件 saved、cancel、error、update:open；非冲突 Modal attrs 可传递；open、onOk、onCancel、confirmLoading 等由本组件管理。
 
-## JccModal / openModal
+## JccModal / openModal / useModal
 
 `JccModal` 是通用受控弹窗，支持 `v-model:open`、`v-model:fullscreen`、`title` 和 `draggable`（默认 true）。其余 Ant Modal 属性和事件可透传；`modalRender` 由拖拽功能占用。默认插槽为内容，`title`、`footer` 为具名插槽。鼠标按住标题拖拽，位置限制在视口内；全屏按钮可切换全屏，切换时重置拖拽位移。事件 `ok`、`cancel`、`update:open`、`update:fullscreen`。
 
-在已挂载的 `JccProvider` 下，可从任意业务组件的点击事件中调用 `openModal(options)`。弹窗内容继承应用的 Vue 注入、Ant 主题和语言。`options`：
+单个已挂载的 `JccProvider` 下，可从点击事件中调用全局 `openModal(options)`。多个 Provider 或多个 Vue 应用共用本库时，在 Provider 后代组件的 `setup` 中调用 `const { openModal } = useModal()`，再在点击事件/异步方法中使用这个入口；它固定绑定最近的 Provider，继承该宿主的注入、Ant 主题和语言。宿主卸载后，绑定入口会报错，不回退到其他应用。没有可用调用上下文且存在多个宿主时，全局入口明确报错。
+
+```js
+import { useModal } from '@jcc/shared/components';
+// 位于 JccProvider 后代组件的 setup / <script setup> 中。
+const { openModal } = useModal();
+```
+
+`options`：
 
 | 字段                                       | 用途                                                                                     |
 | ------------------------------------------ | ---------------------------------------------------------------------------------------- |
 | `component`                                | 必填；弹窗内渲染的 Vue 组件                                                              |
-| `props`                                    | 传给内容组件的属性                                                                       |
+| `props`                                    | 传给内容组件的属性；内容组件声明必填属性时，类型检查要求提供                             |
 | `on`                                       | 内容组件的自定义事件回调，键用事件名（如 `saved`、`update:value`）                       |
 | `slots`                                    | 内容组件的具名插槽                                                                       |
 | `modalProps`                               | 传给 Ant Modal 的属性和事件，如 `title`、`width`、`footer`、`getContainer`、`afterClose` |
@@ -153,6 +162,7 @@ submit 必须返回真实接口 Promise，不要写成只 emit 一个异步事�
 | `onOk` / `onCancel` / `onFullscreenChange` | 弹窗事件回调，接收 `(event, handle)`；全屏回调接收 `(fullscreen, handle)`                |
 
 `openModal` 返回 `{ close(), setFullscreen(boolean) }`。默认取消会关闭；确定只调用 `onOk`，业务可在保存成功后调用 `handle.close()`。内容组件的自定义事件不会自动关闭弹窗，回调可自行决定。`open`、`fullscreen` 和 `modalRender` 由封装管理，不通过 `modalProps` 覆盖。卸载 `JccProvider` 会清理弹窗。
+`setFullscreen` 与标题按钮都会复位拖拽；状态实际变化时 `onFullscreenChange` 只通知一次，重复设置同一状态不通知。
 
 ```js
 import { openModal } from '@jcc/shared/components';

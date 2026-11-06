@@ -6,17 +6,30 @@ on:
 
 jobs:
   verify:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     defaults:
       run:
-        shell: pwsh
+        shell: bash
         working-directory: frontend-workspace
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: "22"
           cache: npm
           cache-dependency-path: frontend-workspace/package-lock.json
       - run: npm ci
       - run: npm run quality
+      - run: npm run build:preview
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:browser
+      - run: npm run test:visual
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: frontend-quality-reports
+          path: |
+            frontend-workspace/coverage
+            frontend-workspace/playwright-report
+            frontend-workspace/test-results
+          retention-days: 7

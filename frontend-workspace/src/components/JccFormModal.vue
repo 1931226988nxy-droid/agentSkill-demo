@@ -19,24 +19,33 @@ const model = reactive({}),
   discardOpen = ref(false),
   fullscreen = ref(false);
 let baseline = '';
-const { run, loading, error } = useAsyncTask(async ({ signal }, values) =>
-  props.submit(values, { signal }),
-);
+let session = 0;
+const {
+  run,
+  loading,
+  error,
+  cancel: cancelTask,
+} = useAsyncTask(async ({ signal }, values) => props.submit(values, { signal }));
 // 每次打开时复制初始值，避免直接修改调用方的数据，并重置脏值基线。
 watch(
   () => props.open,
   async (open) => {
+    const currentSession = ++session;
+    cancelTask();
+    error.value = null;
+    discardOpen.value = false;
     if (!open) return;
+    // 同一次父组件更新中，open 可能早于 initialValues 写入 props。
+    await nextTick();
+    if (currentSession !== session || !props.open) return;
     Object.keys(model).forEach((key) => delete model[key]);
     Object.assign(model, cloneQuery(props.initialValues));
     baseline = JSON.stringify(model);
-    discardOpen.value = false;
     fullscreen.value = false;
-    error.value = null;
     await nextTick();
-    formRef.value?.clearValidate();
+    if (currentSession === session && props.open) formRef.value?.clearValidate();
   },
-  { immediate: true },
+  { immediate: true, flush: 'sync' },
 );
 function close() {
   emit('update:open', false);
@@ -50,20 +59,23 @@ function cancel() {
   else close();
 }
 async function save() {
-  if (loading.value) return;
+  if (loading.value || !props.open) return;
+  const currentSession = session;
   try {
     await formRef.value.validate();
   } catch {
     return;
   }
-  if (loading.value) return;
+  if (loading.value || currentSession !== session || !props.open) return;
   try {
     const values = cloneQuery(model);
     const result = await run(values);
+    if (currentSession !== session || !props.open) return;
     emit('saved', result, values);
     emit('update:open', false);
   } catch (cause) {
-    if (cause.name !== 'AbortError') emit('error', cause);
+    if (currentSession === session && props.open && cause.name !== 'AbortError')
+      emit('error', cause);
   }
 }
 defineExpose({ formRef, model });

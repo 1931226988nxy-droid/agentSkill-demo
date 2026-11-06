@@ -1,10 +1,15 @@
 export function formatBytes(value) {
+  if (value == null || (typeof value === 'string' && value.trim() === '')) return '—';
   const size = Number(value);
   if (!Number.isFinite(size) || size < 0) return '—';
   if (size === 0) return '0 B';
   const units = ['B', 'KB', 'MB', 'GB', 'TB'];
-  const index = Math.min(Math.floor(Math.log(size) / Math.log(1024)), units.length - 1);
-  return `${Number((size / 1024 ** index).toFixed(index ? 2 : 0))} ${units[index]}`;
+  const index = Math.max(
+    0,
+    Math.min(Math.floor(Math.log(size) / Math.log(1024)), units.length - 1),
+  );
+  const precision = index || !Number.isInteger(size) ? 2 : 0;
+  return `${Number((size / 1024 ** index).toFixed(precision))} ${units[index]}`;
 }
 
 export function formatDate(value, { dateOnly = true, locale = 'zh-CN', timeZone } = {}) {
@@ -25,6 +30,13 @@ export function cloneQuery(value) {
   return JSON.parse(JSON.stringify(value));
 }
 
+/**
+ * 保留最后一次参数与调用上下文；cancel 可撤销待执行任务。
+ * @template {(...args: any[]) => unknown} F
+ * @param {F} fn
+ * @param {number} [delay=250]
+ * @returns {import('../../types/utils.js').Debounced<F>}
+ */
 export function debounce(fn, delay = 250) {
   let timer;
   function debounced(...args) {

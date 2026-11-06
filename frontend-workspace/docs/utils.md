@@ -12,7 +12,7 @@
 | safeFileName(name)                                      | 清除路径和文件名非法字符                                                              |
 | getDownloadName(contentDisposition,fallback)            | 优先 UTF-8 filename\*，再 filename，最后 fallback                                     |
 | downloadBlob(blob,filename)                             | 触发浏览器下载，稍后释放 Blob URL                                                     |
-| formatBytes(value)                                      | B/KB/MB/GB/TB；0 与缺失分开                                                           |
+| formatBytes(value)                                      | B/KB/MB/GB/TB；null/undefined/空白字符串显示 —，0 显示 0 B，支持小数字节              |
 | formatDate(value,{dateOnly,locale,timeZone})            | 显示格式；默认浏览器时区，可指定 Asia/Shanghai                                        |
 | cloneQuery(value)                                       | JSON 可序列化筛选值克隆，不处理函数/DOM/ref                                           |
 | debounce(fn,delay)                                      | 防抖函数，提供 cancel()                                                               |
@@ -21,6 +21,7 @@
 
 返回 request(path,{method,query,body,headers,signal,responseType,...fetchOptions})。
 responseType 为 json（默认）、text、blob 或 response。204 返回 null；HTTP 错误抛 HttpError（status/details/message）。
+`request<T>()` 的响应泛型只用于 JSON。text/blob/response 模式分别推导 string/Blob/Response，不接受业务对象泛型；动态 responseType 返回 unknown，由调用方按实际模式收窄。response 模式的 204 保留原始 Response。
 query 数组使用重复键；保留 0/false，省略 null/undefined。JSON body 自动序列化；FormData 不自行设置边界。
 getHeaders 可异步获取最新鉴权信息；组件库不存 token。已有 Axios 等客户端可继续使用，无需强制替换。
 请求路径和 baseURL 由应用维护，不向任意外部 URL 传入鉴权头。API 示例不代表真实后端协议。

@@ -19,6 +19,7 @@
 - `JccFormModal`
 - `JccModal`
 - `openModal`
+- `useModal`
 - `JccPagePanel`
 - `JccQueryBar`
 - `JccAppShell`
@@ -59,10 +60,10 @@
 
 导入路径：`@jcc/shared/validators`；导出源码：共享包 `src/validators.js`。
 
-- `patterns`
 - `isEmail`
 - `isMobileCN`
 - `isPositiveInteger`
+- `patterns`
 
 ## 主题方法
 

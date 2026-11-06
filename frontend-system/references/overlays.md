@@ -2,6 +2,7 @@
 
 - 常规表单用 JccFormModal，详情可直接用 Ant Drawer，简单危险确认用 Popconfirm。
 - 任意组件内容的弹窗用 `openModal({ component, props, on, modalProps })`；内容自定义事件回调放在 `on`，弹窗属性放在 `modalProps`。它需要已挂载的 JccProvider，返回的 handle 可关闭或切换全屏。
+- 多 Provider/多应用时，在 Provider 后代组件的 setup 中用 `useModal()` 捕获局部 openModal；全局调用不会猜测多个宿主。外部关闭 JccFormModal 会取消旧提交并隔离重新打开的会话。
 - 保留标题、关闭按钮、键盘和焦点管理；有未保存内容时提醒，不误丢输入。
 - 静态 message/notification/Modal 不假定自动继承 ConfigProvider 上下文。
 - 需要定制时先用 attrs、slot 和项目局部类；不要复制一份公共弹窗到应用内修改。
